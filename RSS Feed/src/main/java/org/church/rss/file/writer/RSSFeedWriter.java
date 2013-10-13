@@ -18,9 +18,9 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import org.church.rss.feed.domain.Enclosure;
-import org.church.rss.feed.domain.Feed;
-import org.church.rss.feed.domain.FeedMessage;
-import org.church.rss.feed.domain.FeedMessageItem;
+import org.church.rss.feed.domain.RSSFeed;
+import org.church.rss.feed.domain.RSSFeedMessage;
+import org.church.rss.feed.domain.RSSFeedMessageItem;
 
 
 public class RSSFeedWriter 
@@ -51,7 +51,7 @@ public class RSSFeedWriter
     	
     }
     
-	public void write(OutputStream output, Feed feed) throws IOException, XMLStreamException
+	public void write(OutputStream output, RSSFeed feed) throws IOException, XMLStreamException
 	{
 	    XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
 	    XMLEventWriter eventWriter = outputFactory.createXMLEventWriter(output);
@@ -76,7 +76,7 @@ public class RSSFeedWriter
 	    writeChannelTags(eventWriter, feed);
 	    
 	    int count = 0;
-	    for(FeedMessageItem message : feed.getFeedMessages())
+	    for(RSSFeedMessageItem message : feed.getFeedMessages())
 	    {
 	    	if(count != 0)
 	    	{
@@ -104,7 +104,7 @@ public class RSSFeedWriter
 	    eventWriter.close();
 	}
 	
-	private void writeChannelTags(XMLEventWriter eventWriter, Feed feed) throws XMLStreamException
+	private void writeChannelTags(XMLEventWriter eventWriter, RSSFeed feed) throws XMLStreamException
 	{
 		createNode(eventWriter, TITLE, feed.getTitle());
 		
@@ -143,7 +143,7 @@ public class RSSFeedWriter
 		}
 	}
 	
-	private void writeFeedItems(XMLEventWriter eventWriter, FeedMessage message) throws XMLStreamException
+	private void writeFeedItems(XMLEventWriter eventWriter, RSSFeedMessage message) throws XMLStreamException
 	{
 		XMLEventFactory eventFactory = XMLEventFactory.newInstance();
 		XMLEvent tab = eventFactory.createDTD("\t");

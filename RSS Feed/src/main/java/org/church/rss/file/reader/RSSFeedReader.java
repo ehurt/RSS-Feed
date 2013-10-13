@@ -11,8 +11,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.church.rss.feed.domain.Enclosure;
-import org.church.rss.feed.domain.Feed;
-import org.church.rss.feed.domain.FeedMessage;
+import org.church.rss.feed.domain.RSSFeed;
+import org.church.rss.feed.domain.RSSFeedMessage;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,9 +54,9 @@ public class RSSFeedReader
 		
 	}
 	
-	public Feed read(InputStream input) throws ParserConfigurationException, SAXException, IOException, DOMException, ParseException
+	public RSSFeed read(InputStream input) throws ParserConfigurationException, SAXException, IOException, DOMException, ParseException
 	{
-		Feed feed = null;
+		RSSFeed feed = null;
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -71,7 +71,7 @@ public class RSSFeedReader
 			if(node instanceof Element)
 			{
 				Element channel = (Element) node;
-				feed = new Feed();
+				feed = new RSSFeed();
 				
 				NodeList children  = channel.getChildNodes();
 				
@@ -140,7 +140,7 @@ public class RSSFeedReader
 						
 						else if(element.getTagName().equals(ITEM))
 						{
-							FeedMessage message = new FeedMessage();
+							RSSFeedMessage message = new RSSFeedMessage();
 							NodeList childrenElements = element.getChildNodes();
 							feed.addFeedMessage(message);
 									
