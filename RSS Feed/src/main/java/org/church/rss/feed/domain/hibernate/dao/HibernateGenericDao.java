@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 @SuppressWarnings("unchecked")
 public class HibernateGenericDao<T extends Entity<?>, I> implements GenericDao<T , I>
 {
+	public static final String ASCENDING = "asc";
+	public static final String DESCENDING = "des";
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
@@ -111,5 +115,22 @@ public class HibernateGenericDao<T extends Entity<?>, I> implements GenericDao<T
 	public Session getOpenSession() 
 	{
 		return sessionFactory.openSession();
+	}
+
+	public List<T> findAllOrderBy(String property, String asc) 
+	{
+		Order order = null;
+		
+		if(asc.equals(ASCENDING))
+		{
+			order = Order.asc(property);
+		}
+		
+		else
+		{
+			order = Order.desc(property);
+		}
+		
+		return this.getCurrentSession().createCriteria(persistedClass).addOrder(order).list();
 	}
 }

@@ -9,8 +9,8 @@ import javax.persistence.ManyToOne;
 
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.church.rss.feed.domain.Feed;
-import org.church.rss.feed.domain.FeedMessage;
+import org.church.rss.feed.domain.RSSFeed;
+import org.church.rss.feed.domain.RSSFeedMessage;
 
 @Embeddable
 public class FeedMessageKey implements Serializable
@@ -20,11 +20,11 @@ public class FeedMessageKey implements Serializable
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="feed_id")
-	private Feed feed;
+	private RSSFeed feed;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="message_id")
-	private FeedMessage message;
+	private RSSFeedMessage message;
 	
 	public FeedMessageKey()
 	{
@@ -32,19 +32,19 @@ public class FeedMessageKey implements Serializable
 		this.setMessage(null);
 	}
 
-	public FeedMessage getMessage() {
+	public RSSFeedMessage getMessage() {
 		return message;
 	}
 
-	public void setMessage(FeedMessage message) {
+	public void setMessage(RSSFeedMessage message) {
 		this.message = message;
 	}
 
-	public Feed getFeed() {
+	public RSSFeed getFeed() {
 		return feed;
 	}
 
-	public void setFeed(Feed feed) {
+	public void setFeed(RSSFeed feed) {
 		this.feed = feed;
 	}
 	

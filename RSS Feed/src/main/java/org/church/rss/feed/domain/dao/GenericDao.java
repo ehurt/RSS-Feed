@@ -29,6 +29,8 @@ public interface GenericDao<T extends Entity<?>, I>
 	
 	public List<T> findAll();
 	
+	public List<T> findAllOrderBy(String value, String asc);
+	
 	public boolean exists(T entity);
 	
 	public int rowCount();
