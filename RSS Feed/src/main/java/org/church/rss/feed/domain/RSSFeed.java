@@ -44,9 +44,6 @@ public class RSSFeed implements Serializable, org.church.management.interfaces.e
 	@Column(name="title", length=100, nullable=false)
 	private String title;
 	
-	@Column(name="title_lc", length=100, nullable=false, unique=true)
-	private String titlelc;
-	
 	@Column(name="description", length=500, nullable=false)
 	private String description;
 	
@@ -75,12 +72,12 @@ public class RSSFeed implements Serializable, org.church.management.interfaces.e
 	private String managingEditor;
 	
 	//Each <item> element defines an article or "story" in the RSS feed.
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="id.feed",orphanRemoval=true)
-	private List<RSSFeedMessageItem> feedMessages;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="feed",orphanRemoval=true)
+	private List<RSSFeedMessage> feedMessages;
 	
 	public RSSFeed()
 	{
-		this.setFeedMessages(new ArrayList<RSSFeedMessageItem>());
+		this.setFeedMessages(new ArrayList<RSSFeedMessage>());
 	}
 	
 	public Integer getId() 
@@ -133,11 +130,11 @@ public class RSSFeed implements Serializable, org.church.management.interfaces.e
 		this.publicationDate = publicationDate;
 	}
 
-	public List<RSSFeedMessageItem> getFeedMessages() {
+	public List<RSSFeedMessage> getFeedMessages() {
 		return feedMessages;
 	}
 
-	public void setFeedMessages(List<RSSFeedMessageItem> feedMessages) {
+	public void setFeedMessages(List<RSSFeedMessage> feedMessages) {
 		this.feedMessages = feedMessages;
 	}
 
@@ -173,13 +170,10 @@ public class RSSFeed implements Serializable, org.church.management.interfaces.e
 		this.managingEditor = managingEditor;
 	}
 
-	public void addFeedMessage(RSSFeedMessage message){
-		
-		RSSFeedMessageItem item = new RSSFeedMessageItem();
-		FeedMessageKey key = item.getId();
-		key.setMessage(message);
-		key.setFeed(this);
-		this.feedMessages.add(item);
+	public void addFeedMessage(RSSFeedMessage message)
+	{
+		message.setFeed(this);
+		feedMessages.add(message);
 	}
 	
 	public void removeFeedMessage(RSSFeedMessage message){
@@ -197,7 +191,7 @@ public class RSSFeed implements Serializable, org.church.management.interfaces.e
 				return true;
 			}
 			
-			return new EqualsBuilder().append(this.titlelc, that.titlelc).isEquals();
+			return new EqualsBuilder().append(this.title, that.title).isEquals();
 		}
 		
 		return false;
@@ -205,6 +199,6 @@ public class RSSFeed implements Serializable, org.church.management.interfaces.e
 	
 	public int hashCode()
 	{
-		return new HashCodeBuilder().append(title).append(titlelc).append(description).append(link).toHashCode();
+		return new HashCodeBuilder().append(title).append(description).append(link).toHashCode();
 	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,6 +28,9 @@ public class RSSFeedMessage implements Serializable, org.church.management.inter
 	@GeneratedValue
 	private Integer id;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private RSSFeed feed;
+	
 	//Required. Defines the title of the item
 	@Column(name="title", length=100, nullable=false)
 	private String title;
@@ -36,8 +40,12 @@ public class RSSFeedMessage implements Serializable, org.church.management.inter
 	private String description;
 	
 	//Required. Defines the hyperlink to the item
-	@Column(name="link", length=300, nullable=false)
+	@Column(name="link", length=300, nullable=true)
 	private String link;
+	
+	@Lob
+	@Column(name="content", columnDefinition="TEXT (6000)")
+	private String content;
 	
 	//Allows a media file to be included with the item
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -138,6 +146,22 @@ public class RSSFeedMessage implements Serializable, org.church.management.inter
 
 	public void setEnclosure(Enclosure enclosure) {
 		this.enclosure = enclosure;
+	}
+
+	public RSSFeed getFeed() {
+		return feed;
+	}
+
+	public void setFeed(RSSFeed feed) {
+		this.feed = feed;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public boolean equals(Object object)

@@ -20,7 +20,6 @@ import javax.xml.stream.events.XMLEvent;
 import org.church.rss.feed.domain.Enclosure;
 import org.church.rss.feed.domain.RSSFeed;
 import org.church.rss.feed.domain.RSSFeedMessage;
-import org.church.rss.feed.domain.RSSFeedMessageItem;
 
 
 public class RSSFeedWriter 
@@ -76,7 +75,7 @@ public class RSSFeedWriter
 	    writeChannelTags(eventWriter, feed);
 	    
 	    int count = 0;
-	    for(RSSFeedMessageItem message : feed.getFeedMessages())
+	    for(RSSFeedMessage message : feed.getFeedMessages())
 	    {
 	    	if(count != 0)
 	    	{
@@ -87,7 +86,7 @@ public class RSSFeedWriter
 	    	eventWriter.add(tab);
 	    	eventWriter.add(eventFactory.createStartElement("", "", "item"));
 	        eventWriter.add(end);
-	    	writeFeedItems(eventWriter, message.getId().getMessage());
+	    	writeFeedItems(eventWriter, message);
 	    	eventWriter.add(tab);
 	    	eventWriter.add(eventFactory.createEndElement("", "", "item"));
 	    }
